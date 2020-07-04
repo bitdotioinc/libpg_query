@@ -181,17 +181,17 @@ _fingerprintVar(FingerprintContext *ctx, const Var *node, const void *parent, co
     _fingerprintString(ctx, buffer);
   }
 
-  if (node->varnoold != 0) {
+  if (node->varnosyn != 0) {
     char buffer[50];
-    sprintf(buffer, "%d", node->varnoold);
-    _fingerprintString(ctx, "varnoold");
+    sprintf(buffer, "%d", node->varnosyn);
+    _fingerprintString(ctx, "varnosyn");
     _fingerprintString(ctx, buffer);
   }
 
-  if (node->varoattno != 0) {
+  if (node->varattnosyn != 0) {
     char buffer[50];
-    sprintf(buffer, "%d", node->varoattno);
-    _fingerprintString(ctx, "varoattno");
+    sprintf(buffer, "%d", node->varattnosyn);
+    _fingerprintString(ctx, "varattnosyn");
     _fingerprintString(ctx, buffer);
   }
 

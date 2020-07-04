@@ -5,7 +5,7 @@ ARLIB = lib$(TARGET).a
 PGDIR = $(root_dir)/tmp/postgres
 PGDIRBZ2 = $(root_dir)/tmp/postgres.tar.bz2
 
-PG_VERSION = 12.1
+PG_VERSION = 13beta2
 
 SRC_FILES := $(wildcard src/*.c)
 OBJ_FILES := $(SRC_FILES:.c=.o)
@@ -45,7 +45,7 @@ build: $(ARLIB)
 clean:
 	-@ $(RM) $(CLEANLIBS) $(CLEANOBJS) $(EXAMPLES) $(TESTS)
 	-@ $(RM) -rf {test,examples}/*.dSYM
-	#-@ $(RM) -r $(PGDIR) $(PGDIRBZ2)
+	-@ $(RM) -r $(PGDIR) $(PGDIRBZ2)
 
 .PHONY: all clean build examples test
 

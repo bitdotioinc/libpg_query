@@ -2,28 +2,33 @@ diff --git a/src/backend/Makefile b/src/backend/Makefile
 index b03d5e510f..8c8c53c3b8 100644
 --- a/src/backend/Makefile
 +++ b/src/backend/Makefile
-@@ -37,8 +37,21 @@ LOCALOBJS += utils/probes.o
+@@ -37,12 +37,26 @@
  endif
  endif
  
 +LOCALOBJS += mock.o
 +
- OBJS = $(SUBDIROBJS) $(LOCALOBJS) $(top_builddir)/src/port/libpgport_srv.a \
-        $(top_builddir)/src/common/libpgcommon_srv.a
+ OBJS = \
+ 	$(LOCALOBJS) \
+ 	$(SUBDIROBJS) \
+ 	$(top_builddir)/src/common/libpgcommon_srv.a \
+ 	$(top_builddir)/src/port/libpgport_srv.a
+ 
 +PGLIBOBJS := $(call expand_subsys,$(OBJS))
 +PGLIBOBJS += ../pl/plpgsql/src/*.o ../../contrib/pgcrypto/sha1.o
 +
 +TO_EXCLUDE=commands/% replication/% utils/fmgrtab.o utils/fmgr/fmgr.o utils/adt/rangetypes_typanalyze.o \
-+					 access/heap/vacuumlazy.o ./utils/adt/array_typanalyze.o utils/cache/% utils/misc/rls.o \
-+					 utils/adt/acl.o utils/misc/superuser.o catalog/aclchk.o catalog/heap.o
++	access/heap/vacuumlazy.o ./utils/adt/array_typanalyze.o utils/cache/% utils/misc/rls.o \
++	utils/adt/acl.o utils/misc/superuser.o catalog/aclchk.o catalog/heap.o
 +
 +PGLIBOBJS := $(filter-out $(TO_EXCLUDE), $(PGLIBOBJS))
-+# Readd specific things excluded before
++# Re-add specific things excluded before
 +PGLIBOBJS += commands/define.o
 +
- 
++
  # We put libpgport and libpgcommon into OBJS, so remove it from LIBS; also add
  # libldap and ICU
+ LIBS := $(filter-out -lpgport -lpgcommon, $(LIBS)) $(LDAP_LIBS_BE) $(ICU_LIBS)
 @@ -53,14 +66,22 @@ endif
  
  ##########################################################################
@@ -61,15 +66,12 @@ index b03d5e510f..8c8c53c3b8 100644
 diff --git a/src/pl/plpgsql/src/Makefile b/src/pl/plpgsql/src/Makefile
 --- a/src/pl/plpgsql/src/Makefile
 +++ b/src/pl/plpgsql/src/Makefile
-@@ -19,8 +19,8 @@
- SHLIB_LINK = $(filter -lintl, $(LIBS))
- rpath =
- 
--OBJS = pl_gram.o pl_handler.o pl_comp.o pl_exec.o \
--	pl_funcs.o pl_scanner.o $(WIN32RES)
-+OBJS = pl_gram.o pl_handler.o pl_comp.o  \
-+	pl_funcs.o pl_scanner.o plmock.o $(WIN32RES)
- 
- DATA = plpgsql.control plpgsql--1.0.sql plpgsql--unpackaged--1.0.sql
- 
-
+@@ -22,7 +22,7 @@
+ OBJS = \
+ 	$(WIN32RES) \
+ 	pl_comp.o \
+-	pl_exec.o \
++	plmock.o \
+ 	pl_funcs.o \
+ 	pl_gram.o \
+ 	pl_handler.o \

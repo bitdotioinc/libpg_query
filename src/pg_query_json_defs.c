@@ -51,8 +51,8 @@ _outVar(StringInfo str, const Var *node)
   WRITE_INT_FIELD(vartypmod);
   WRITE_UINT_FIELD(varcollid);
   WRITE_UINT_FIELD(varlevelsup);
-  WRITE_UINT_FIELD(varnoold);
-  WRITE_INT_FIELD(varoattno);
+  WRITE_UINT_FIELD(varnosyn);
+  WRITE_INT_FIELD(varattnosyn);
   WRITE_INT_FIELD(location);
 }
 
