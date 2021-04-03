@@ -5,7 +5,7 @@
 
 const char* progname = "pg_query";
 
-sig_atomic_t pg_query_initialized = 0;
+__thread sig_atomic_t pg_query_initialized = 0;
 
 void pg_query_init(void)
 {
